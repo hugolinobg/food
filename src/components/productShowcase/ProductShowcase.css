@@ -1,0 +1,26 @@
+.productBox {
+  border: 0.3rem solid #e9e9e9;
+  border-radius: 1.8rem;
+  max-width: 230px;
+  padding: 1rem 1rem 2rem 1rem;
+  display: inline-block;
+  margin: 3rem;
+}
+
+.productDescription {
+  color: #acacac;
+  font-size: 1.3rem;
+}
+
+.productPrice {
+  color: #e84f3d;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1rem;
+}
+
+.productBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
