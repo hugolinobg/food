@@ -1,0 +1,12 @@
+.checkoutBox {
+  border: 0.1rem solid #ccc;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2.5rem;
+}
+
+.checkoutBox h3 {
+  margin: 0 0 2rem 0;
+}
+
+

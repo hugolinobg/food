@@ -6,9 +6,9 @@ function ProductShowcase() {
   return (
     <div className="productBox text-center">
       <img src={foto} alt="Fotos" />
-      
+
       <div>
-        <h2>Spicy Burger</h2>
+        <h2 className="productTitle">Spicy Burger</h2>
         <p className="productDescription">
           Hamburguer de 250g, queijo, tomate, alface e cebola.
         </p>
@@ -17,7 +17,7 @@ function ProductShowcase() {
 
       <div className="productBtn">
         <button className="btn btn-cart">
-          <img src={bagBlack} alt="sacalo" className="icon"/> Adicionar
+          <img src={bagBlack} alt="sacalo" className="icon" /> Adicionar
         </button>
       </div>
     </div>

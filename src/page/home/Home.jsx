@@ -1,5 +1,5 @@
 import "./Home.css"
-import Navbar from "../../components/navbar/navbar"
+import Navbar from "../../components/navbar/navbar.jsx"
 import ProductShowcase from "../../components/productShowcase/productShowcase.jsx"
 
 function Home() {
