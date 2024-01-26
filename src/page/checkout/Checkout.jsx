@@ -115,6 +115,23 @@ function Checkout() {
             </div>
           </div>
         </div>
+
+        <div className="col-3">
+          <div className="checkoutBox">
+            <h3>Valores</h3>
+
+            <div className="checkoutValue">
+              <span>Total:</span>
+              <span>
+                <strong>R$ 50,00</strong>
+              </span>
+            </div>
+
+            <div className="checkoutBtn">
+              <button className="btn-checkout">Finalizar Pedido</button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )

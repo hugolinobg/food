@@ -5,7 +5,7 @@ import ProductShowcase from "../../components/productShowcase/productShowcase.js
 function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar showMenu={true} />
       <div className="container">
         <div className="text-center">
           <h1 className="title">Nosso Cardápio</h1>

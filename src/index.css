@@ -48,10 +48,19 @@ body {
 
 .text-center {
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .text-right {
   text-align: right;
+}
+
+.text-red {
+  color: #cd3e2e;
+}
+
+.text-light {
+  color: #747474;
 }
 
 .icon {
@@ -151,8 +160,24 @@ select {
   margin-bottom: 1.5rem;
 }
 
+table {
+  /* text-align: center; */
+  width: 100%;
+}
+
+td {
+  padding: 1.5rem;
+  border-bottom: 0.1rem solid #ccc;
+}
+
 @media screen and (max-width: 1100px) {
   .subtitle {
     max-width: 95%;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .col-3 {
+    width: 100%;
   }
 }
