@@ -12,7 +12,9 @@ function Navbar(PropTypes) {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="logotipo" className="logotipo" />
+      <Link to="/">
+        <img src={logo} alt="logotipo" className="logotipo" />
+      </Link>
 
       {PropTypes.showMenu ? (
         <div className="menu">

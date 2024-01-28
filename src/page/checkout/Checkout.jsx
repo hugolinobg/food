@@ -1,17 +1,18 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Navbar from "../../components/navbar/navbar.jsx"
+import { CartContext } from "../../contexts/CartContext.jsx"
 import "./Checkout.css"
 
 function Checkout() {
+  const { cartTotal } = useContext(CartContext)
+
+  const [input, setInput] = useState("")
+  const urlCep = "https://brasilapi.com.br/api/cep/v2"
   const inputCep = document.getElementById("cep")
   const cidade = document.getElementById("cidade")
   const endereco = document.getElementById("endereco")
   const bairro = document.getElementById("bairro")
-  const complemento = document.getElementById("complemento")
   const uf = document.getElementById("uf")
-  const [input, setInput] = useState("")
-  const [cep, setCep] = useState("")
-  const urlCep = "https://viacep.com.br/ws"
 
   async function handleSearch() {
     if (inputCep === "") {
@@ -20,20 +21,18 @@ function Checkout() {
     }
 
     try {
-      const response = await fetch(`${urlCep}/${input}/json`)
+      const response = await fetch(`${urlCep}/${input}`)
 
       if (!response.ok) {
         throw Error("Não foi possível obter as informações!")
       }
 
       const cepApiResults = await response.json()
-      setCep(cepApiResults)
 
-      cidade.value = cep.localidade
-      endereco.value = cep.logradouro
-      bairro.value = cep.bairro
-      complemento.value = cep.complemento
-      uf.value = cep.uf
+      cidade.value = cepApiResults.city
+      endereco.value = cepApiResults.street
+      bairro.value = cepApiResults.neighborhood
+      uf.value = cepApiResults.state
     } catch (error) {
       console.log("Algo de erado: ", error)
     }
@@ -96,7 +95,7 @@ function Checkout() {
 
             <div className="inputGurp">
               <label htmlFor="numero">Número:</label>
-              <input type="text" id="numero" />
+              <input type="text" id="numero" required />
             </div>
 
             <div className="inputGurp">
@@ -123,12 +122,17 @@ function Checkout() {
             <div className="checkoutValue">
               <span>Total:</span>
               <span>
-                <strong>R$ 50,00</strong>
+                <strong>
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(cartTotal)}
+                </strong>
               </span>
             </div>
 
             <div className="checkoutBtn">
-              <button className="btn-checkout">Finalizar Pedido</button>
+              <button className="btn btn-checkout">Finalizar Pedido</button>
             </div>
           </div>
         </div>

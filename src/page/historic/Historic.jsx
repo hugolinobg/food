@@ -1,6 +1,6 @@
 import "./Historic.css"
 import Navbar from "../../components/navbar/navbar.jsx"
-import { requests } from "../../dado.js"
+import { orders } from "../../dado.js"
 
 function Historic() {
   return (
@@ -14,17 +14,31 @@ function Historic() {
 
         <div className="orderBox">
           <table className="table">
-            {requests.map((request) => {
-              return (
-                <tr>
-                  <td>
-                    <strong>{request.id_pedido}</strong>
-                  </td>
-                  <td className="text-ligkt">{request.dt}</td>
-                  <td className="text-red">{request.total}</td>
-                </tr>
-              )
-            })}
+            <thead>
+              <tr>
+                <th>Número do Pedido</th>
+                <th>Data</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => {
+                return (
+                  <tr key={order.id_order}>
+                    <td>
+                      <strong>{order.id_order}</strong>
+                    </td>
+                    <td className="text-ligkt">{order.dt}</td>
+                    <td className="text-red">
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(order.total)}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
           </table>
         </div>
       </div>

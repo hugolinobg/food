@@ -7,13 +7,17 @@
   margin: 3rem;
 }
 
-.productTitle{
+.productBox img {
+  object-fit: cover;
+}
+
+.productTitle {
   font-size: 2rem;
 }
 
 .productDescription {
   color: #acacac;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .productPrice {

@@ -1,6 +1,7 @@
 import "./Home.css"
 import Navbar from "../../components/navbar/navbar.jsx"
 import ProductShowcase from "../../components/productShowcase/productShowcase.jsx"
+import { products } from "../../dado.js"
 
 function Home() {
   return (
@@ -17,11 +18,18 @@ function Home() {
       </div>
 
       <div className="text-center">
-        <ProductShowcase />
-        <ProductShowcase />
-        <ProductShowcase />
-        <ProductShowcase />
-        <ProductShowcase />
+        {products.map((product) => {
+          return (
+            <ProductShowcase
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          )
+        })}
       </div>
     </>
   )
