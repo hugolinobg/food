@@ -16,7 +16,7 @@ function Historic() {
           <table className="table">
             <thead>
               <tr>
-                <th>Número do Pedido</th>
+                <th>Pedidos</th>
                 <th>Data</th>
                 <th>Total</th>
               </tr>

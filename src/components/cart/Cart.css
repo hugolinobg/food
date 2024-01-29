@@ -1,5 +1,5 @@
 .list-product {
-  height: calc(100% - 188px);
+  height: calc(100% - 183px);
   overflow: auto;
 }
 
@@ -14,4 +14,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.btnClose {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 3.2rem;
+  cursor: pointer;
 }

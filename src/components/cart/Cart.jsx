@@ -5,6 +5,8 @@ import ProductCart from "../productCart/productCart.jsx"
 import "./Cart.css"
 import { CartContext } from "../../contexts/CartContext.jsx"
 
+import back from "../../assets/image/back.png"
+
 function Cart() {
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
@@ -32,6 +34,14 @@ function Cart() {
       }}
     >
       <div className="text-center">
+        <img
+          className="btnClose"
+          src={back}
+          alt="fechar"
+          onClick={() => {
+            setShow(false)
+          }}
+        />
         <h1>Meu Pedidio</h1>
       </div>
 
