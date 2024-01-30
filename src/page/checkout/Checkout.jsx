@@ -1,41 +1,73 @@
 import { useContext, useState } from "react"
 import Navbar from "../../components/navbar/navbar.jsx"
 import { CartContext } from "../../contexts/CartContext.jsx"
+import apiCep from "../../services/apiCep.jsx"
 import "./Checkout.css"
 
 function Checkout() {
-  const { cartTotal } = useContext(CartContext)
+  const { cartTotal, setCartTotal, cartItems, setCartItems } =
+    useContext(CartContext)
 
-  const [input, setInput] = useState("")
-  const urlCep = "https://brasilapi.com.br/api/cep/v2"
-  const inputCep = document.getElementById("cep")
-  const cidade = document.getElementById("cidade")
-  const endereco = document.getElementById("endereco")
-  const bairro = document.getElementById("bairro")
-  const uf = document.getElementById("uf")
+  // const [data, setData] = useState("")
+
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [fone, setFone] = useState("")
+
+  const [cep, setCep] = useState("")
+  const [address, setAddress] = useState("")
+  const [number, setNumber] = useState("")
+  const [neighborhood, setNeighborhood] = useState("")
+  const [complement, setComplement] = useState("")
+  const [city, setCity] = useState("")
+  const [uf, setUf] = useState("")
+
+  const inputAddress = document.getElementById("endereco")
+  const inputNeighborhood = document.getElementById("bairro")
+  const inputCity = document.getElementById("cidade")
+  const inputUf = document.getElementById("uf")
 
   async function handleSearch() {
-    if (inputCep === "") {
+    if (cep === "") {
       alert("Informe o CEP!")
       return
     }
 
-    try {
-      const response = await fetch(`${urlCep}/${input}`)
+    apiCep
+      .get(`/${cep}`)
+      .then((res) => {
+        const setData = res.data
 
-      if (!response.ok) {
-        throw Error("Não foi possível obter as informações!")
-      }
+        inputAddress.value = setData.street
+        inputNeighborhood.value = setData.neighborhood
+        inputCity.value = setData.city
+        inputUf.value = setData.state
+      })
+      .catch((error) => {
+        alert(`Erro ao carregar CEP - ${error}`)
+      })
+  }
 
-      const cepApiResults = await response.json()
+  function finalizeOrder() {
+    let products = []
 
-      cidade.value = cepApiResults.city
-      endereco.value = cepApiResults.street
-      bairro.value = cepApiResults.neighborhood
-      uf.value = cepApiResults.state
-    } catch (error) {
-      console.log("Algo de erado: ", error)
+    const params = {
+      id_user: 1,
+      name,
+      email,
+      fone,
+      cep,
+      address,
+      number,
+      neighborhood,
+      complement,
+      city,
+      uf,
+      total: cartTotal,
+      items: products,
     }
+
+    console.log(params)
   }
 
   return (
@@ -52,17 +84,35 @@ function Checkout() {
 
             <div className="inputGurp">
               <label htmlFor="name">Nome completo:</label>
-              <input type="text" id="name" />
+              <input
+                type="text"
+                id="name"
+                value={name}
+                required
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="email">E-mail:</label>
-              <input type="email" id="email" />
+              <input
+                type="email"
+                id="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="fone">Telefone contato:</label>
-              <input type="text" id="fone" />
+              <input
+                type="text"
+                id="fone"
+                value={fone}
+                required
+                onChange={(e) => setFone(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -76,41 +126,76 @@ function Checkout() {
               <input
                 type="text"
                 id="cep"
-                value={input}
+                required
+                value={cep}
                 onBlur={handleSearch}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => setCep(e.target.value)}
                 placeholder="16306506"
               />
             </div>
 
             <div className="inputGurp">
-              <label htmlFor="cidade">Cidade:</label>
-              <input type="text" id="cidade" />
-            </div>
-
-            <div className="inputGurp">
               <label htmlFor="endereco">Endereço:</label>
-              <input type="text" id="endereco" />
+              <input
+                type="text"
+                id="endereco"
+                value={address}
+                required
+                onChange={(e) => setAddress(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="numero">Número:</label>
-              <input type="text" id="numero" required />
+              <input
+                type="text"
+                id="numero"
+                required
+                onChange={(e) => setNumber(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="bairro">Bairro:</label>
-              <input type="text" id="bairro" />
+              <input
+                type="text"
+                id="bairro"
+                required
+                value={neighborhood}
+                onChange={(e) => setNeighborhood(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="complemento">Complemento:</label>
-              <input type="text" id="complemento" />
+              <input
+                type="text"
+                id="complemento"
+                onChange={(e) => setComplement(e.target.value)}
+              />
+            </div>
+
+            <div className="inputGurp">
+              <label htmlFor="cidade">Cidade:</label>
+              <input
+                type="text"
+                id="cidade"
+                value={city}
+                required
+                onChange={(e) => setCity(e.target.value)}
+              />
             </div>
 
             <div className="inputGurp">
               <label htmlFor="uf">Estado:</label>
-              <input type="text" id="uf" />
+              <input
+                type="text"
+                id="uf"
+                value={uf}
+                placeholder="SP"
+                required
+                onChange={(e) => setUf(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -132,7 +217,9 @@ function Checkout() {
             </div>
 
             <div className="checkoutBtn">
-              <button className="btn btn-checkout">Finalizar Pedido</button>
+              <button onClick={finalizeOrder} className="btn btn-checkout">
+                Finalizar Pedido
+              </button>
             </div>
           </div>
         </div>

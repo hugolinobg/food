@@ -1,9 +1,23 @@
-import "./Home.css"
+import { useEffect, useState } from "react"
+import api from "../../services/api.jsx"
 import Navbar from "../../components/navbar/navbar.jsx"
 import ProductShowcase from "../../components/productShowcase/productShowcase.jsx"
-import { products } from "../../dado.js"
+import "./Home.css"
 
 function Home() {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    api
+      .get("/products")
+      .then((res) => {
+        setProducts(res.data)
+      })
+      .catch((error) => {
+        alert(`Erro ao carregar produtos - ${error}`)
+      })
+  }, [])
+
   return (
     <>
       <Navbar showMenu={true} />
@@ -21,8 +35,8 @@ function Home() {
         {products.map((product) => {
           return (
             <ProductShowcase
-              key={product.id}
-              id={product.id}
+              key={product.id_product}
+              id={product.id_product}
               name={product.name}
               description={product.description}
               price={product.price}

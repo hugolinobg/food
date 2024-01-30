@@ -1,8 +1,22 @@
-import "./Historic.css"
+import { useEffect, useState } from "react"
+import api from "../../services/api.jsx"
 import Navbar from "../../components/navbar/navbar.jsx"
-import { orders } from "../../dado.js"
+import "./Historic.css"
 
 function Historic() {
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    api
+      .get("/orders")
+      .then((res) => {
+        setOrders(res.data)
+      })
+      .catch((error) => {
+        alert(`Erro ao carregar pedidos - ${error}`)
+      })
+  })
+
   return (
     <>
       <Navbar showMenu={true} />
@@ -28,7 +42,7 @@ function Historic() {
                     <td>
                       <strong>{order.id_order}</strong>
                     </td>
-                    <td className="text-ligkt">{order.dt}</td>
+                    <td className="text-ligkt">{order.dtOrder}</td>
                     <td className="text-red">
                       {new Intl.NumberFormat("pt-BR", {
                         style: "currency",

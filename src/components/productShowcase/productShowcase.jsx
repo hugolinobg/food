@@ -20,7 +20,7 @@ function ProductShowcase(PropTypes) {
 
   return (
     <div className="productBox text-center">
-      <img src={PropTypes.image} alt="Fotos" />
+      <img className="productImg" src={PropTypes.image} alt="Fotos" />
 
       <div>
         <h2 className="productTitle">{PropTypes.name}</h2>

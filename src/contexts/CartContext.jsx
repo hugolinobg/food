@@ -64,6 +64,7 @@ function CartProvider(PropsType) {
         AddItemCart,
         RemoveItemCart,
         cartTotal,
+        setCartTotal,
       }}
     >
       {PropsType.children}
