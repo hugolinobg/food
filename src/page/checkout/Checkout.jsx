@@ -1,16 +1,21 @@
 import { useContext, useState } from "react"
-import Navbar from "../../components/navbar/navbar.jsx"
+import { useNavigate } from "react-router-dom"
 import { CartContext } from "../../contexts/CartContext.jsx"
+import Navbar from "../../components/navbar/navbar.jsx"
 import apiCep from "../../services/apiCep.jsx"
+import api from "../../services/api.jsx"
 import "./Checkout.css"
 
 function Checkout() {
   const { cartTotal, setCartTotal, cartItems, setCartItems } =
     useContext(CartContext)
 
-  // const [data, setData] = useState("")
+  const navigate = useNavigate()
+
+  const [getData, setData] = useState([])
 
   const [name, setName] = useState("")
+
   const [email, setEmail] = useState("")
   const [fone, setFone] = useState("")
 
@@ -22,12 +27,8 @@ function Checkout() {
   const [city, setCity] = useState("")
   const [uf, setUf] = useState("")
 
-  const inputAddress = document.getElementById("endereco")
-  const inputNeighborhood = document.getElementById("bairro")
-  const inputCity = document.getElementById("cidade")
-  const inputUf = document.getElementById("uf")
-
-  async function handleSearch() {
+  function handleSearch(e) {
+    e.preventDefault()
     if (cep === "") {
       alert("Informe o CEP!")
       return
@@ -36,23 +37,33 @@ function Checkout() {
     apiCep
       .get(`/${cep}`)
       .then((res) => {
-        const setData = res.data
-
-        inputAddress.value = setData.street
-        inputNeighborhood.value = setData.neighborhood
-        inputCity.value = setData.city
-        inputUf.value = setData.state
+        setData(res.data)
       })
       .catch((error) => {
         alert(`Erro ao carregar CEP - ${error}`)
       })
+
+    setAddress(getData.street)
+    setNeighborhood(getData.neighborhood)
+    setCity(getData.city)
+    setUf(getData.state)
   }
 
-  function finalizeOrder() {
+  function finalizeOrder(e) {
+    e.preventDefault()
     let products = []
 
+    for (let product of cartItems) {
+      products.push({
+        id_product: product.id,
+        qtd: product.qtd,
+        valueUnitary: product.price,
+        valueTotal: product.price * product.qtd,
+      })
+    }
+
     const params = {
-      id_user: 1,
+      id_user: 2,
       name,
       email,
       fone,
@@ -63,11 +74,28 @@ function Checkout() {
       complement,
       city,
       uf,
+      dtOrder: Date.now(),
       total: cartTotal,
       items: products,
     }
 
-    console.log(params)
+    // api
+    //   .post("/cart", params.items)
+    //   .then(() => {})
+    //   .catch((error) => {
+    //     alert(`Erro ao enviar items - ${error}`)
+    //   })
+
+    api
+      .post("/orders", params && "/cart", params.items)
+      .then(() => {
+        setCartItems([])
+        setCartTotal(0)
+        navigate("/historic")
+      })
+      .catch((error) => {
+        alert(`Erro ao enviar pedido - ${error}`)
+      })
   }
 
   return (
@@ -150,6 +178,7 @@ function Checkout() {
               <input
                 type="text"
                 id="numero"
+                value={number}
                 required
                 onChange={(e) => setNumber(e.target.value)}
               />

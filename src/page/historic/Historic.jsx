@@ -6,6 +6,8 @@ import "./Historic.css"
 function Historic() {
   const [orders, setOrders] = useState([])
 
+   
+
   useEffect(() => {
     api
       .get("/orders")
@@ -15,6 +17,8 @@ function Historic() {
       .catch((error) => {
         alert(`Erro ao carregar pedidos - ${error}`)
       })
+
+     
   })
 
   return (
@@ -37,12 +41,17 @@ function Historic() {
             </thead>
             <tbody>
               {orders.map((order) => {
+                let data = new Date(order.dtOrder)
                 return (
                   <tr key={order.id_order}>
                     <td>
                       <strong>{order.id_order}</strong>
                     </td>
-                    <td className="text-ligkt">{order.dtOrder}</td>
+                    <td className="text-ligkt">
+                      {data.toLocaleDateString("pt-BR", {
+                        timeZone: "UTC",
+                      })}
+                    </td>
                     <td className="text-red">
                       {new Intl.NumberFormat("pt-BR", {
                         style: "currency",
